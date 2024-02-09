@@ -18,8 +18,16 @@ function __anon_func__()
 
     declare -a args=($*)
 
+    # -------------------------------------------------------------
+    # Derive path to repository sandbox root
+    # repo:onf-common may be a git-subdir so explicitly derive path
+    # -------------------------------------------------------------
     local raw
     raw="$(readlink --canonicalize-existing --no-newline "${BASH_SOURCE[0]}")"
+
+    local top="$raw"  # repo:onf-urls/common.sh
+    top="${top%/*}"   # repo:onf-urls/
+
     local top="${raw%/*}"
     local common="${top}/common/sh"
 
@@ -27,6 +35,7 @@ function __anon_func__()
     for arg in "${args[@]}";
     do
 	    case "$arg" in
+	        # --detect)    source "${common}"/detect-cmd-paths.sh ;;
 	        --tempdir)    source "${common}"/tempdir.sh    ;;
 	        --traputils)  source "${common}"/traputils.sh  ;;
 	        --stacktrace) source "${common}"/stacktrace.sh ;;
