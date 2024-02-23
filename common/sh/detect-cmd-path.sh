@@ -7,31 +7,29 @@
 
 if [[ ! -v pgmroot ]]; then
 {
-	[[ -v debug__detect_cmd_path ]] && { local -i debug=1; }
-
-    # Would like FUNCNAME[0] but we lack function context
-	[[ -v debug ]] && { echo "** ENTER: ${BASH_SOURCE[0]##/*} (LINENO:$LINENO)"; }
-
     declare -g pgm="$(readlink --canonicalize-existing "$0")"
-    readonly pgm
+    declare -g pgm_name="${pgm##*/}"
 
-	declare -g pgm_name="${pgm##/*}"
-    readonly pgm_name
+#   Use to detect lib subdir
+#    local pgm_stem="${pgm_name%.*}"
+#    declare -p pgm_stem
 
     declare -g pgmbin="${pgm%/*}"
     declare -g pgmroot="${pgmbin%/*}"
-    declare -g pgmlib="${pgmroot%/*}/onf_urls/onf_urls"
+
+    readonly pgm    # pgm_abs
+    readonly pgm_name
     readonly pgmbin
     readonly pgmroot
-    readonly pgmlib
+    # readonly pgmlib # ambiguous
 
     # [TODO] Support .anchor (parent-to-root) search
-
-	[[ -v debug ]] && { echo "** LEAVE: ${BASH_SOURCE[0]##/*} (LINENO:$LINENO)"; }
 }
 fi
 
-[[ -v trace__detect_cmd_path ]] && { echo "** LEAVE: ${BASH_SOURCE[0]##*/} (LINENO:$LINENO)"; }
+[[ -v trace__detect_cmd_path ]] \
+    && { echo "** LEAVE: ${BASH_SOURCE[0]##*/} (LINENO:$LINENO)"; } \
+    || { true; }
 
 :
 

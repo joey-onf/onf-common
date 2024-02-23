@@ -35,10 +35,11 @@ function __anon_func__()
     for arg in "${args[@]}";
     do
 	    case "$arg" in
-	        # --detect)    source "${common}"/detect-cmd-paths.sh ;;
+	        --detect)     source "${common}"/detect-cmd-path.sh ;;
 	        --tempdir)    source "${common}"/tempdir.sh    ;;
 	        --traputils)  source "${common}"/traputils.sh  ;;
 	        --stacktrace) source "${common}"/stacktrace.sh ;;
+		"$cab") continue ;;
             *) echo "ERROR ${BASH_SOURCE[0]}: [SKIP] unknown switch=$arg" ;;
 	    esac
     done
