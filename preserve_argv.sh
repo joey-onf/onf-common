@@ -34,22 +34,24 @@ function __anon_func_preserve_argv__()
 
     elif true; then
 	declare -g -a __preserve_argv_stack__=()
+	local -i found=0
+	
 	while [[ $# -gt 0 ]]; do
 	    case "$1" in
 		"$cab")
-		    local -i found=1
+		    found=1
 		    shift
 		    break
 		    ;;
 	    esac
 
-	    [[ -v found ]] && { break; } || { true; }
+	    [[ $found -gt 0 ]] && { break; } || { true; }
 	    __preserve_argv_stack__+="$1"
 	    shift
 	done
 
-	if [[ ! -v found ]]; then
-            echo " ** ${iam}::${FUNCNAME} ERROR: ARGV marker not found: ${cab}"
+	if [[ $found -eq 0 ]]; then
+            echo " ** ${iam}::${FUNCNAME} ERROR: ARGV marker not found: ${cab} (LINENO:$LINENO)"
             echo " ** command: $0"
             exit 1
 	fi
@@ -73,6 +75,7 @@ function __anon_func_preserve_argv__()
 ##----------------##
 ##---]  MAIN  [---##
 ##----------------##
+echo "** RAW: $@"
 __anon_func_preserve_argv__ "$@"
 unset __anon_func_preserve_argv__
 

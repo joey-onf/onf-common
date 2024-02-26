@@ -50,7 +50,6 @@ function __anon_func__()
 ##----------------##
 ##---]  MAIN  [---##
 ##----------------##
-source "${BASH_SOURCE[0]%/*}/preserve_argv.sh" # pushd @ARGV
 
 if [ $# -gt 0 ] && [ "$1" == '--common-args-begin--' ]; then
     shift # remove arg marker
@@ -58,7 +57,7 @@ fi
 
 if [ $# -eq 0 ]; then
     # common.sh defaults
-    set -- '--tempdir' '--traputils' '--stacktrace'
+    set -- '--tempdir' '--traputils' '--stacktrace' '--common-args-begin--'
 fi
 
 __anon_func__ "$@"
